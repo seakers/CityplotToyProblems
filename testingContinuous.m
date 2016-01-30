@@ -1,5 +1,5 @@
 %% parameters
-% for Dixon-Price
+for Dixon-Price
 indx=1:5;
 [iX,iY]=meshgrid(indx,indx);
 
@@ -42,13 +42,23 @@ xlabel('perm');
 ylabel('dixon-price');
 zlabel('rosenbrock');
 colorbar;
-% savefig('contiToy_Scatter_6objNorms_full.fig');
+savefig('contiToy_Scatter_6objNorms_full.fig');
 
 %% make cityplot
-cityplot3d(squareform(pdist(pArchs)),vals,pArchs);
+[plotting,hdt]=cityplot3d(squareform(pdist(pArchs)),vals,pArchs);
 % savefig('contiToy_Cityplot_6objNorms_full.fig');
-cityplot3d(squareform(pdist(pArchs)),vals(:,1:3),pArchs);
+% cityplot3d(squareform(pdist(pArchs)),vals(:,1:3),pArchs);
 % savefig('contiToy_Cityplot_6objNorms_full3Obj.fig');
+
+% %% move around the datatip and create a movie.
+% %see: getframe, movie2avi, movie for movie generation (or already done in
+% %VisCodes for rotating stuff)
+% %see: undocumentedmatlab: "Controlling plot data-tips" for data tip movement.
+% for(indx=1:size(plotting,1))
+%     cursor=hdt.CurrentDataCursor;
+%     update(cursor,[plotting(indx,:),1;plotting(indx,:),0;plotting(indx,:),-1])
+%     drawnow
+% end
 
 %% make cityplot of the parts which are in the big block
 care=[1,2,3,6];
