@@ -1,5 +1,5 @@
 %% parameters
-for Dixon-Price
+% for Dixon-Price
 indx=1:5;
 [iX,iY]=meshgrid(indx,indx);
 

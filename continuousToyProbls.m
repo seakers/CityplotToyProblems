@@ -1,7 +1,7 @@
 %% find the pareto frontier. Notice that the rosenbrock and dixon price functions are convex.
 %lets make x in R^5 where x_i in [-5,5]
 addpath('../VisCodes');
-addpath('../simonFrasierTestProblems/')
+addpath('../stdTestProbs/simonFrasier')
 
 %%define functions
 multiObj=@(x) [permdb(x');dixonprice(x');rosenbrock(x');linspace(0,10,5)*abs(x)'];
