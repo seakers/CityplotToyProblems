@@ -55,7 +55,7 @@ hold off
 
 %% plot the updated cityplots--hamming
 dist=squareform(pdist(real(pArchs),'hamming')*archLen);
-cityplot3d(dist,pMets,pArchs)
+cityplot3d(dist,pMets,pArchs,'MdscaleOptArgs',{'Criterion','sammon'});
 
 %% plot the updated cityplot--by 1st weighting
 compIdx=nchoosek(1:size(pArchs,1),2);
@@ -64,16 +64,16 @@ dist2_T=zeros(size(pArchs,1));
 dist2_T(sub2ind(size(dist2_T),compIdx(:,1),compIdx(:,2)))=weightedDist_T;
 dist2_T=dist2_T+dist2_T';
 
-cityplot3d(dist2_T,pMets,pArchs);
+cityplot3d(dist2_T,pMets,pArchs,'MdscaleOptArgs',{'Criterion','sammon'});
 
 %% new plot to test transparency
 AlphaFactor=0.2;
 
 dist=squareform(pdist(real(pArchs),'hamming')*archLen);
-[plt,nMet, pltOpts, hdt]=cityplot3d(dist,pMets,pArchs, 'FaceAlpha',AlphaFactor,'EdgeAlpha',AlphaFactor);
+[plt,nMet, pltOpts, hdt]=cityplot3d(dist,pMets,pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProp', {'FaceAlpha',AlphaFactor,'EdgeAlpha',AlphaFactor});
 
 OrFirstTwo=sum(pArchs(:,1:2),2)>=1;
 
 hold on
-nodesWithBarGraph3d(plt(OrFirstTwo,:),nMet(OrFirstTwo,:),pltOpts.skyscraperRegulation);
+nodesWithBarGraph3d(plt(OrFirstTwo,:),nMet(OrFirstTwo,:),pltOpts.BuildingHeight);
 hold off

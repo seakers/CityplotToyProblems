@@ -69,7 +69,7 @@ nVals=(vals-repmat(minObj,size(vals,1),1))./repmat(maxObj-minObj,size(vals,1),1)
 [minObj,whichOpt]=min(nVals,[],2);
 keep=ismember(whichOpt,care);
 
-cityplot3d(squareform(pdist(pArchs)),keep,pArchs); % verfiy which points to keep
+cityplot3d(squareform(pdist(pArchs)),real(keep),pArchs); % verfiy which points to keep
 % savefig('contiToy_Cityplot_6objNorms_origObj.fig');
 
 figure
