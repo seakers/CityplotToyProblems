@@ -45,7 +45,8 @@ colorbar;
 savefig('contiToy_Scatter_6objNorms_full.fig');
 
 %% make cityplot
-[plotting,hdt]=cityplot3d(squareform(pdist(pArchs)),vals,pArchs);
+figure();
+[plotting,hdt]=cityplot3d(squareform(pdist(pArchs)),vals,'DesignLabels',pArchs);
 % savefig('contiToy_Cityplot_6objNorms_full.fig');
 % cityplot3d(squareform(pdist(pArchs)),vals(:,1:3),pArchs);
 % savefig('contiToy_Cityplot_6objNorms_full3Obj.fig');
@@ -69,7 +70,7 @@ nVals=(vals-repmat(minObj,size(vals,1),1))./repmat(maxObj-minObj,size(vals,1),1)
 [minObj,whichOpt]=min(nVals,[],2);
 keep=ismember(whichOpt,care);
 
-cityplot3d(squareform(pdist(pArchs)),real(keep),pArchs); % verfiy which points to keep
+cityplot3d(figure(),squareform(pdist(pArchs)),real(keep),'DesignLabels',pArchs); % verfiy which points to keep
 % savefig('contiToy_Cityplot_6objNorms_origObj.fig');
 
 figure
@@ -82,5 +83,5 @@ colorbar;
 % savefig('contiToy_scatter_6objNorms_origObj.fig');
 
 %% make cityplot
-cityplot3d(squareform(pdist(pArchs(keep,:))),vals(keep,care),pArchs(keep,:));
+cityplot3d(figure(),squareform(pdist(pArchs(keep,:))),vals(keep,care),'DesignLabels',pArchs(keep,:));
 % savefig('contiToy_Cityplot_6objNorms_keep3obj.fig');
