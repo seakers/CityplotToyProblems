@@ -72,10 +72,8 @@ cityplot3d(ax_h,dist2_T,pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion
 AlphaFactor=0.2;
 
 dist=squareform(pdist(real(pArchs),'hamming')*archLen);
-[plt,nMet, pltOpts, hdt]=cityplot3d(dist,pMets,'DesignLabels',pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProp', {'FaceAlpha',AlphaFactor,'EdgeAlpha',AlphaFactor});
+[h, plt,nMet, pltOpts, hdt]=cityplot3d(dist,pMets,'DesignLabels',pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProp', {'FaceAlpha',AlphaFactor,'EdgeAlpha',AlphaFactor});
 
 OrFirstTwo=sum(pArchs(:,1:2),2)>=1;
 
-hold on
-nodesWithBarGraph3d(plt(OrFirstTwo,:),nMet(OrFirstTwo,:),pltOpts.BuildingHeight);
-hold off
+nodesWithBarGraph3d(h, plt(OrFirstTwo,:),nMet(OrFirstTwo,:),pltOpts.BuildingHeight);
