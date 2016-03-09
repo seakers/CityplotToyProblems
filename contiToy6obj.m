@@ -35,7 +35,8 @@
 % pArchs=savArchs(smplIndx,:);
 % vals=savVals(smplIndx,:);
 
-load('continuous_inPaperV5_0.mat')
+% load('continuous_inPaperV5_0.mat')
+load('continuous_6obj_1500_2pop.mat')
 
 divisor=3.25;
 oldClrMap=hsv2rgb([linspace(0,2/3,64)',ones(64,2)]);
