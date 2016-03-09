@@ -2,11 +2,11 @@ archLen=10;
 
 %% currently in paper
 w1=archLen.^(-([1:archLen]-1)/3)
-% w2=archLen.^((archLen-[1:archLen])/3) % in paper
 w2=archLen.^(-(archLen-[1:archLen])/3) %should be
 w=[w1',w2'];
 
-
+oldClrMap=hsv2rgb([linspace(0,2/3,64)',ones(64,2)]);
+% oldClrMap=flipud(colormap('cool'));
 %% architectures
 archs=reshape(str2num(reshape(dec2bin(0:(2^archLen-1)),archLen*2^archLen,1)),2^archLen,archLen);
 
@@ -56,7 +56,7 @@ hold off
 %% plot the updated cityplots--hamming
 dist=squareform(pdist(real(pArchs),'hamming')*archLen);
 figure();
-cityplot3d(dist,pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion','sammon'});
+cityplot3d(dist,-pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion','sammon'}, 'RoadColors', oldClrMap);
 
 %% plot the updated cityplot--by 1st weighting
 compIdx=nchoosek(1:size(pArchs,1),2);
@@ -66,13 +66,14 @@ dist2_T(sub2ind(size(dist2_T),compIdx(:,1),compIdx(:,2)))=weightedDist_T;
 dist2_T=dist2_T+dist2_T';
 
 ax_h=figure();
-cityplot3d(ax_h,dist2_T,pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion','sammon'});
+cityplot3d(ax_h,dist2_T,-pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion','sammon'}, 'RoadLimit', ceil((176/2)^2), 'RoadColors', oldClrMap);
 
 %% new plot to test transparency
 AlphaFactor=0.2;
 
+figure()
 dist=squareform(pdist(real(pArchs),'hamming')*archLen);
-[h, plt,nMet, pltOpts, hdt]=cityplot3d(dist,pMets,'DesignLabels',pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProp', {'FaceAlpha',AlphaFactor,'EdgeAlpha',AlphaFactor});
+[h, plt,nMet, pltOpts, hdt]=cityplot3d(dist,-pMets,'DesignLabels',pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProp', {'FaceAlpha',AlphaFactor,'EdgeAlpha',AlphaFactor});
 
 OrFirstTwo=sum(pArchs(:,1:2),2)>=1;
 
