@@ -68,13 +68,18 @@ dist2_T=dist2_T+dist2_T';
 ax_h=figure();
 cityplot3d(ax_h,dist2_T,-pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion','sammon'}, 'RoadLimit', ceil((176/2)^2), 'RoadColors', oldClrMap);
 
-%% new plot to test transparency
+%% new plot to test transparency - old
 AlphaFactor=0.2;
 
 figure()
+hold on
 dist=squareform(pdist(real(pArchs),'hamming')*archLen);
-[h, plt,nMet, pltOpts, hdt]=cityplot3d(dist,-pMets,'DesignLabels',pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProp', {'FaceAlpha',AlphaFactor,'EdgeAlpha',AlphaFactor});
+[h, plt,nMet, pltOpts, hdt]=cityplot3d(dist,-pMets,'DesignLabels',pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProperties', {'FaceAlpha', alphaFactor, 'EdgeAlpha', alphaFactor});
 
 OrFirstTwo=sum(pArchs(:,1:2),2)>=1;
 
 nodesWithBarGraph3d(h, plt(OrFirstTwo,:),nMet(OrFirstTwo,:),pltOpts.BuildingHeight);
+
+%% new plot to test transparency - new
+OrFirstTwoArr=0.2+0.8*(sum(pArchs(:,1:2),2)>=1);
+cityplot3d(dist, -pMets, 'DesignLabels', pArchs, 'MdscaleOptArgs', {'Criterion', 'sammon'}, 'BuildingTransparency', OrFirstTwoArr);
