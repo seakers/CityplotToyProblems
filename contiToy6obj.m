@@ -86,26 +86,26 @@ savefig('contiToy_Cityplot_6objNorms_full.fig');
 % end
 
 %% make cityplot of the parts which are in the big block
-% care=[1,2,3,6];
-% minObj=min(vals,[],1);
-% maxObj=max(vals,[],1);
-% nVals=(vals-repmat(minObj,size(vals,1),1))./repmat(maxObj-minObj,size(vals,1),1);
-% 
-% [minObj,whichOpt]=min(nVals,[],2);
-% keep=ismember(whichOpt,care);
-% 
-% cityplot3d(figure(),squareform(pdist(pArchs)),-real(keep),'DesignLabels',pArchs); % verfiy which points to keep
-% % savefig('contiToy_Cityplot_6objNorms_origObj.fig');
-% 
-% figure
-% % scatter3(vals(:,1),vals(:,2),vals(:,3),1000,vals(:,4),'.');
-% scatter3(vals(keep,1),vals(keep,2),vals(keep,3),1000,vals(keep,5),'.');
-% xlabel('perm');
-% ylabel('dixon-price');
-% zlabel('rosenbrock');
-% colorbar;
-% % savefig('contiToy_scatter_6objNorms_origObj.fig');
+care=[1,2,3,6];
+minObj=min(vals,[],1);
+maxObj=max(vals,[],1);
+nVals=(vals-repmat(minObj,size(vals,1),1))./repmat(maxObj-minObj,size(vals,1),1);
+
+[minObj,whichOpt]=min(nVals,[],2);
+keep=ismember(whichOpt,care);
+
+cityplot3d(figure(),squareform(pdist(pArchs)),-real(keep),'DesignLabels',pArchs); % verfiy which points to keep
+% savefig('contiToy_Cityplot_6objNorms_origObj.fig');
+
+figure
+% scatter3(vals(:,1),vals(:,2),vals(:,3),1000,vals(:,4),'.');
+scatter3(vals(keep,1),vals(keep,2),vals(keep,3),1000,vals(keep,5),'.');
+xlabel('perm');
+ylabel('dixon-price');
+zlabel('rosenbrock');
+colorbar;
+% savefig('contiToy_scatter_6objNorms_origObj.fig');
 
 %% make cityplot
-% cityplot3d(figure(),squareform(pdist(pArchs(keep,:))),-vals(keep,care),'DesignLabels',pArchs(keep,:));
+cityplot3d(figure(),squareform(pdist(pArchs(keep,:))),-vals(keep,care),'DesignLabels',pArchs(keep,:));
 % savefig('contiToy_Cityplot_6objNorms_keep3obj.fig');

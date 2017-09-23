@@ -1,9 +1,10 @@
-archLen=10;
+archLen=6;
 
 %% currently in paper
-w1=archLen.^(-([1:archLen]-1)/3)
-w2=archLen.^(-(archLen-[1:archLen])/3) %should be
-w=[w1',w2'];
+w1=archLen.^(-([1:archLen]-1)/3);
+w2=archLen.^(-(archLen-[1:archLen])/3); %should be
+w3=normpdf([0.5:1:archLen],archLen/2,archLen/2);
+w=[w1',w2',w3'];
 
 oldClrMap=hsv2rgb([linspace(0,2/3,64)',ones(64,2)]);
 % oldClrMap=flipud(colormap('cool'));
@@ -22,18 +23,18 @@ disp('number pareto architectures')
 sum(isP)
 
 %% plot objectives in 2d plot with color
-hold on
-scatter(mets(:,1),mets(:,2),[],mets(:,3));
-plot(mets(isP,1),mets(isP,2),'.');
-colorbar
-hold off
+% hold on
+% scatter(mets(:,1),mets(:,2),[],mets(:,3));
+% plot(mets(isP,1),mets(isP,2),'.');
+% colorbar
+% hold off
 
 %% plot in 3d to see just what's happening
-figure
-hold on
-plot3(mets(:,1),mets(:,2),mets(:,3),'b.')
-plot3(mets(isP,1),mets(isP,2),mets(isP,3),'r.')
-hold off
+% figure
+% hold on
+% plot3(mets(:,1),mets(:,2),mets(:,3),'b.')
+% plot3(mets(isP,1),mets(isP,2),mets(isP,3),'r.')
+% hold off
 
 %% examine a single numebr. 
 % This is where my logic broke down.
@@ -57,29 +58,34 @@ hold off
 dist=squareform(pdist(real(pArchs),'hamming')*archLen);
 figure();
 cityplot3d(dist,-pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion','sammon'}, 'RoadColors', oldClrMap);
+% cityplot3d(dist,-pMets,'DesignLabels',pArchs,'RoadColors', oldClrMap);
 
 %% plot the updated cityplot--by 1st weighting
-compIdx=nchoosek(1:size(pArchs,1),2);
-weightedDist_T=real(xor(pArchs(compIdx(:,1),:),pArchs(compIdx(:,2),:))*(w1'));
-dist2_T=zeros(size(pArchs,1));
-dist2_T(sub2ind(size(dist2_T),compIdx(:,1),compIdx(:,2)))=weightedDist_T;
-dist2_T=dist2_T+dist2_T';
-
-ax_h=figure();
-cityplot3d(ax_h,dist2_T,-pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion','sammon'}, 'RoadLimit', ceil((176/2)^2), 'RoadColors', oldClrMap);
+% compIdx=nchoosek(1:size(pArchs,1),2);
+% weightedDist_T=real(xor(pArchs(compIdx(:,1),:),pArchs(compIdx(:,2),:))*(w1'));
+% dist2_T=zeros(size(pArchs,1));
+% dist2_T(sub2ind(size(dist2_T),compIdx(:,1),compIdx(:,2)))=weightedDist_T;
+% dist2_T=dist2_T+dist2_T';
+% 
+% ax_h=figure();
+% cityplot3d(ax_h,dist2_T,-pMets,'DesignLabels',pArchs,'MdscaleOptArgs',{'Criterion','sammon'}, 'RoadLimit', ceil((176/2)^2), 'RoadColors', oldClrMap);
 
 %% new plot to test transparency - old
-AlphaFactor=0.2;
-
-figure()
-hold on
-dist=squareform(pdist(real(pArchs),'hamming')*archLen);
-[h, plt,nMet, pltOpts, hdt]=cityplot3d(dist,-pMets,'DesignLabels',pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProperties', {'FaceAlpha', alphaFactor, 'EdgeAlpha', alphaFactor});
-
-OrFirstTwo=sum(pArchs(:,1:2),2)>=1;
-
-nodesWithBarGraph3d(h, plt(OrFirstTwo,:),nMet(OrFirstTwo,:),pltOpts.BuildingHeight);
+% alphaFactor=0.2;
+% 
+% figure()
+% hold on
+% dist=squareform(pdist(real(pArchs),'hamming')*archLen);
+% [h, plt,nMet, pltOpts, hdt]=cityplot3d(dist,-pMets,'DesignLabels',pArchs, 'MdscaleOptArgs',{'Criterion','sammon'}, 'BuildingProp', {'FaceAlpha', alphaFactor, 'EdgeAlpha', alphaFactor});
+% 
+% OrFirstTwo=sum(pArchs(:,1:2),2)>=1;
+% 
+% nodesWithBarGraph3d(h, plt(OrFirstTwo,:),nMet(OrFirstTwo,:),pltOpts.BuildingHeight);
 
 %% new plot to test transparency - new
-OrFirstTwoArr=0.2+0.8*(sum(pArchs(:,1:2),2)>=1);
-cityplot3d(dist, -pMets, 'DesignLabels', pArchs, 'MdscaleOptArgs', {'Criterion', 'sammon'}, 'BuildingTransparency', OrFirstTwoArr);
+% OrFirstTwoArr=0.2+0.8*(sum(pArchs(:,1:2),2)>=1);
+% cityplot3d(dist, -pMets, 'DesignLabels', pArchs, 'MdscaleOptArgs', {'Criterion', 'sammon'}, 'BuildingTransparency', OrFirstTwoArr);
+
+%% writing the revised dataset for Cityplot VR Experiment
+writeCityplotStuff('fullerDiscExpTrade_sammon',pArchs,dist,-pMets,{'blue1','red2','green3','black4'},{'Criterion','sammon'})
+writeCityplotStuff('fullerDiscExpTrade',pArchs,dist,-pMets,{'blue1','red2','green3','black4'},{})
